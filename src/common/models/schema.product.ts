@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Date, HydratedDocument } from 'mongoose';
+import { User } from './schema.user';
 
 export type ProductDocument = HydratedDocument<Product>;
 
@@ -8,7 +9,7 @@ export class Product {
     @Prop()
     owner:{
         type:mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: User
     }
     @Prop()
     title: string;
@@ -22,10 +23,11 @@ export class Product {
     @Prop()
     price: string;
 
+    @Prop()
     createdAt:{
         type:Date,
         default: Date
     }
 }
 
-export const UserSchema = SchemaFactory.createForClass(Product);
+export const ProductSchema = SchemaFactory.createForClass(Product);

@@ -1,43 +1,44 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Date, HydratedDocument } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { HydratedDocument } from 'mongoose';
+import { User } from './schema.user';
+import { Product } from './schema.product';
 
 export type OrderDocument = HydratedDocument<Order>;
 
 @Schema()
 export class Order {
   @Prop()
-  firstName: string;
-
+  owner:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref: User
+  }
   @Prop()
-  lastName: string;
-
-  @Prop()
-  seller:{
-    type:Boolean,
-    default: false
+  totalPrice:{
+    type: number,
+    default: 0
   }
 
   @Prop()
-  address:{
-    address1: string,
-    address2?: string,
-    city: string,
-    state: string,
-    country: string,
-    zip: number
-  }
+  products:[
+    {
+      product:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Product
+      }
+
+      quanttity:{
+        type: number,
+        default: 0
+      }
+    }
+  ]
 
   @Prop()
   createdAt:{
-    type: Date,
-    default: Date
+      type:Date,
+      default: Date
   }
-
-  @Prop()
-  email: number;
-
-  @Prop()
-  password: number;
 
  
 }
