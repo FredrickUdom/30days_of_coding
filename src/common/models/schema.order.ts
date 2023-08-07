@@ -1,46 +1,32 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
-import { HydratedDocument } from 'mongoose';
-import { User } from './schema.user';
-import { Product } from './schema.product';
+import * as mongoose from "mongoose";
 
-export type OrderDocument = HydratedDocument<Order>;
-
-@Schema()
-export class Order {
-  @Prop()
+export const OrderSchema = new mongoose.Schema({
   owner:{
-      type:mongoose.Schema.Types.ObjectId,
-      ref: User
-  }
-  @Prop()
-  totalPrice:{
-    type: number,
-    default: 0
-  }
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  },
 
-  @Prop()
+  totalPrice:{
+    type: Number,
+    default: 0
+  },
+
   products:[
     {
       product:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Product
-      }
+        type: mongoose.Schema.ObjectId,
+        ref: 'Product'
+      },
 
-      quanttity:{
-        type: number,
+      quantity:{
+        type: Number,
         default: 0
-      }
-    }
-  ]
+      },
+    },
+  ],
 
-  @Prop()
   createdAt:{
-      type:Date,
-      default: Date
+    type: Date,
+    default: Date.now()
   }
-
- 
-}
-
-export const OrderSchema = SchemaFactory.createForClass(Order);
+})
